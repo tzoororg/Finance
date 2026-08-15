@@ -18,7 +18,7 @@ function decrypt(enc) {
   return execFileSync('powershell', ['-NoProfile', '-Command', ps], { input: enc, encoding: 'utf8' }).trim();
 }
 function loadCreds(company) {
-  const raw = JSON.parse(readFileSync(`${ROOT}/creds/${company}.json`, 'utf8'));
+  const raw = JSON.parse(readFileSync(`${ROOT}/creds/${company}.json`, 'utf8').replace(/^﻿/, '')); // strip PS5.1 BOM
   return Object.fromEntries(Object.entries(raw).map(([k, v]) => [k, decrypt(v)]));
 }
 
@@ -68,15 +68,19 @@ async function main() {
   const startDate = new Date();
   startDate.setMonth(startDate.getMonth() - months);
 
-  const companies = only ? [only]
+  const companies = args.includes('--recat-only') ? [] : only ? [only]
     : readdirSync(`${ROOT}/creds`).filter(f => f.endsWith('.json')).map(f => f.replace('.json', ''));
-  if (!companies.length) { console.error('No credentials found. Run .\\setup-creds.ps1 first.'); process.exit(1); }
+  if (!companies.length && !args.includes('--recat-only')) { console.error('No credentials found. Run .\\setup-creds.ps1 first.'); process.exit(1); }
 
   let failed = 0;
   for (const company of companies) {
     process.stdout.write(`${company}... `);
     try {
-      const scraper = createScraper({ companyId: company, startDate, showBrowser: show, timeout: 120000 });
+      // persistent profile per company so completed 2FA/device-trust survives between runs
+      const scraper = createScraper({
+        companyId: company, startDate, showBrowser: show, timeout: 120000,
+        args: [`--user-data-dir=${ROOT}/data/profiles/${company}`],
+      });
       const result = await scraper.scrape(loadCreds(company));
       if (!result.success) throw new Error(`${result.errorType}: ${result.errorMessage ?? ''}`);
       let added = 0;
@@ -97,6 +101,9 @@ async function main() {
       else accounts[`${company}/?`] = { company, account: '?', status: 'error', error: String(e.message).slice(0, 200) };
     }
   }
+
+  // re-apply rules to still-uncategorized txns (rules grow over time; manual categories untouched)
+  for (const t of Object.values(store)) if (!t.category) t.category = categorize(t.description);
 
   writeFileSync(`${ROOT}/data/transactions.json`, JSON.stringify(store, null, 1));
   writeFileSync(`${ROOT}/data/accounts.json`, JSON.stringify(accounts, null, 1));

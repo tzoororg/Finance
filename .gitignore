@@ -1,0 +1,4 @@
+node_modules/
+creds/
+data/
+app/data.json

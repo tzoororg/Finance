@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>תזרים — מוקאפים</title>
+<style>
+  :root{
+    --bg:#f6f3ee; --card:#ffffff; --ink:#1e2430; --muted:#8a8f9c;
+    --green:#1e9e6a; --red:#d9534f; --amber:#e8a13c; --blue:#3d6fe0;
+    --line:#ece7de; --chip:#f0ede6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:"Segoe UI",system-ui,sans-serif}
+  body{background:#e9e4db;color:var(--ink);padding:32px 16px}
+  h1{font-size:20px;text-align:center;margin-bottom:4px}
+  .sub{text-align:center;color:var(--muted);font-size:13px;margin-bottom:28px}
+  .row{display:flex;gap:28px;justify-content:center;flex-wrap:wrap}
+  .phone{width:340px;background:var(--bg);border-radius:28px;border:6px solid #2a2d34;
+         overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.18);flex-shrink:0}
+  .screen{padding:18px 16px 70px;position:relative;min-height:640px}
+  .label{text-align:center;font-size:13px;color:#555;margin:10px 0 24px;font-weight:600}
+  .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .top .month{font-weight:700;font-size:17px}
+  .top .gear{color:var(--muted);font-size:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
+  .big{font-size:34px;font-weight:800;letter-spacing:-1px}
+  .big small{font-size:16px;font-weight:600;color:var(--muted)}
+  .pos{color:var(--green)} .neg{color:var(--red)}
+  .kv{display:flex;justify-content:space-between;font-size:14px;padding:6px 0}
+  .kv .v{font-weight:700;font-variant-numeric:tabular-nums}
+  .bar{height:8px;background:var(--chip);border-radius:4px;overflow:hidden;margin-top:6px}
+  .bar i{display:block;height:100%;border-radius:4px}
+  .muted{color:var(--muted);font-size:12px}
+  .alert{border-right:4px solid var(--amber);background:#fdf6ea}
+  .alert b{font-size:14px}
+  .tabs{position:absolute;bottom:0;right:0;left:0;background:var(--card);border-top:1px solid var(--line);
+        display:flex;justify-content:space-around;padding:10px 0 14px;font-size:11px;color:var(--muted)}
+  .tabs .on{color:var(--blue);font-weight:700}
+  .tabs span{display:flex;flex-direction:column;align-items:center;gap:2px}
+  .tabs .ico{font-size:18px}
+  .cat{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .cat:last-child{border-bottom:0}
+  .cat .emoji{font-size:20px;width:36px;height:36px;background:var(--chip);border-radius:10px;
+              display:flex;align-items:center;justify-content:center}
+  .cat .mid{flex:1}
+  .cat .name{font-size:14px;font-weight:600}
+  .cat .amt{font-weight:700;font-size:14px;font-variant-numeric:tabular-nums;text-align:left}
+  .tx{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .tx:last-child{border-bottom:0}
+  .tx .mid{flex:1}
+  .tx .m{font-size:14px;font-weight:600}
+  .tx .amt{font-weight:700;font-variant-numeric:tabular-nums}
+  .chips{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .chip{background:var(--chip);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:600}
+  .chip.sel{background:var(--blue);color:#fff}
+  .badge{font-size:11px;border-radius:20px;padding:3px 10px;font-weight:700}
+  .ok{background:#e3f4ec;color:var(--green)} .warn{background:#fdeeee;color:var(--red)}
+  .acc{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+  .acc:last-child{border-bottom:0}
+  .acc .logo{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+             color:#fff;font-weight:800;font-size:13px}
+  .acc .mid{flex:1}
+  .acc .n{font-size:14px;font-weight:700}
+  .inboxhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .count{background:var(--red);color:#fff;border-radius:20px;font-size:12px;font-weight:700;padding:2px 10px}
+</style>
+</head>
+<body>
+<h1>תזרים — מוקאפים לסבב ראשון</h1>
+<div class="sub">ארבעה מסכים · נתוני דמה · לפני חיבור ל־Sticker Book tokens</div>
+
+<div class="row">
+
+<!-- ============ 1. HOME / CASHFLOW ============ -->
+<div>
+<div class="phone"><div class="screen">
+  <div class="top"><div class="month">אוגוסט 2026</div><div class="gear">⚙️</div></div>
+
+  <div class="card" style="text-align:center">
+    <div class="muted">צפי סוף חודש</div>
+    <div class="big pos">‎+2,340 ₪</div>
+    <div class="muted">עודכן הלילה · 14 ימים נותרו</div>
+  </div>
+
+  <div class="card">
+    <div class="kv"><span>נשאר להוציא החודש</span><span class="v pos">3,120 ₪</span></div>
+    <div class="bar"><i style="width:58%;background:var(--green)"></i></div>
+    <div class="muted" style="margin-top:6px">קצב תקין — ‎223 ₪ ליום בממוצע</div>
+  </div>
+
+  <div class="card">
+    <div class="kv"><span>הכנסות</span><span class="v">21,400 ₪</span></div>
+    <div class="kv"><span>הוצאות קבועות</span><span class="v">‎−11,830 ₪</span></div>
+    <div class="kv"><span>הוצאות משתנות עד כה</span><span class="v">‎−4,110 ₪</span></div>
+    <div class="kv" style="border-top:1px solid var(--line);margin-top:4px;padding-top:10px">
+      <span><b>יעד חיסכון</b></span><span class="v pos">2,000 ₪</span></div>
+  </div>
+
+  <div class="card alert">
+    <b>⚠️ חיוב חריג</b>
+    <div class="muted" style="margin-top:4px">״פנגו סימפל״ 9.90 ₪ — חיוב חוזר שלישי. מנוי שלא זיהינו?</div>
+  </div>
+
+  <div class="tabs">
+    <span class="on"><span class="ico">🏠</span>תזרים</span>
+    <span><span class="ico">📊</span>קטגוריות</span>
+    <span><span class="ico">📥</span>תנועות</span>
+    <span><span class="ico">🏦</span>חשבונות</span>
+  </div>
+</div></div>
+<div class="label">1 · מסך הבית — צפי קדימה, לא רק סיכום אחורה</div>
+</div>
+
+<!-- ============ 2. CATEGORIES ============ -->
+<div>
+<div class="phone"><div class="screen">
+  <div class="top"><div class="month">קטגוריות · אוגוסט</div><div class="gear">⚙️</div></div>
+
+  <div class="card">
+    <div class="cat"><div class="emoji">🛒</div>
+      <div class="mid"><div class="name">סופר ואוכל הביתה</div>
+        <div class="bar"><i style="width:72%;background:var(--green)"></i></div>
+        <div class="muted">1,940 מתוך 2,700 ₪</div></div>
+      <div class="amt">1,940 ₪</div></div>
+    <div class="cat"><div class="emoji">🍔</div>
+      <div class="mid"><div class="name">אוכל בחוץ ומשלוחים</div>
+        <div class="bar"><i style="width:104%;background:var(--red)"></i></div>
+        <div class="muted">830 מתוך 800 ₪ · חריגה</div></div>
+      <div class="amt neg">830 ₪</div></div>
+    <div class="cat"><div class="emoji">⛽</div>
+      <div class="mid"><div class="name">רכב ותחבורה</div>
+        <div class="bar"><i style="width:45%;background:var(--green)"></i></div>
+        <div class="muted">540 מתוך 1,200 ₪</div></div>
+      <div class="amt">540 ₪</div></div>
+    <div class="cat"><div class="emoji">🏠</div>
+      <div class="mid"><div class="name">דירה — בני ברק</div>
+        <div class="bar"><i style="width:100%;background:var(--blue)"></i></div>
+        <div class="muted">תשלום קבלן · קבוע</div></div>
+      <div class="amt">6,500 ₪</div></div>
+    <div class="cat"><div class="emoji">📱</div>
+      <div class="mid"><div class="name">מנויים ותקשורת</div>
+        <div class="bar"><i style="width:88%;background:var(--amber)"></i></div>
+        <div class="muted">7 מנויים פעילים</div></div>
+      <div class="amt">412 ₪</div></div>
+    <div class="cat"><div class="emoji">🎁</div>
+      <div class="mid"><div class="name">אחר / לא מסווג</div>
+        <div class="muted" style="margin-top:4px">3 תנועות ממתינות לסיווג ←</div></div>
+      <div class="amt">218 ₪</div></div>
+  </div>
+
+  <div class="card" style="text-align:center">
+    <div class="muted">תקציב לכל קטגוריה נקבע אוטומטית מממוצע 3 חודשים — אפשר לדרוס ידנית</div>
+  </div>
+
+  <div class="tabs">
+    <span><span class="ico">🏠</span>תזרים</span>
+    <span class="on"><span class="ico">📊</span>קטגוריות</span>
+    <span><span class="ico">📥</span>תנועות</span>
+    <span><span class="ico">🏦</span>חשבונות</span>
+  </div>
+</div></div>
+<div class="label">2 · קטגוריות מול תקציב — הפירוט שריידאפ לא נותנת</div>
+</div>
+
+<!-- ============ 3. TRANSACTION INBOX ============ -->
+<div>
+<div class="phone"><div class="screen">
+  <div class="top"><div class="month">תנועות</div><div class="gear">⚙️</div></div>
+
+  <div class="inboxhead"><b style="font-size:15px">ממתינות לאישור</b><span class="count">3</span></div>
+
+  <div class="card">
+    <div class="tx"><div class="mid">
+      <div class="m">רמי לוי שיווק השקמה</div>
+      <div class="muted">אתמול · ויזה כאל ····4821</div>
+      <div class="chips"><span class="chip sel">🛒 סופר</span><span class="chip">🍔 בחוץ</span><span class="chip">אחר…</span></div>
+    </div><div class="amt neg">‎−347.60 ₪</div></div>
+  </div>
+
+  <div class="card">
+    <div class="tx"><div class="mid">
+      <div class="m">PAYPAL *STEAMGAMES</div>
+      <div class="muted">אתמול · מקס ····7719</div>
+      <div class="chips"><span class="chip sel">🎮 פנאי</span><span class="chip">📱 מנויים</span><span class="chip">אחר…</span></div>
+    </div><div class="amt neg">‎−89.00 ₪</div></div>
+  </div>
+
+  <div class="card">
+    <div class="tx"><div class="mid">
+      <div class="m">העברה מ־נועה</div>
+      <div class="muted">היום · לאומי עו״ש</div>
+      <div class="chips"><span class="chip sel">🔁 העברה פנימית</span><span class="chip">💰 הכנסה</span></div>
+      <div class="muted" style="margin-top:6px">העברות בין חשבונות לא נספרות כהכנסה</div>
+    </div><div class="amt pos">‎+1,200 ₪</div></div>
+  </div>
+
+  <div class="muted" style="text-align:center;margin:8px 0 10px">האישור מלמד את הכללים — בפעם הבאה יסווג לבד</div>
+
+  <b style="font-size:14px">היום</b>
+  <div class="card" style="margin-top:8px">
+    <div class="tx"><div class="mid"><div class="m">פז אפליקציית ילו</div>
+      <div class="muted">⛽ רכב · מקס ····7719</div></div><div class="amt">‎−250.00 ₪</div></div>
+    <div class="tx"><div class="mid"><div class="m">סלקום תקשורת</div>
+      <div class="muted">📱 מנויים · הוראת קבע לאומי</div></div><div class="amt">‎−79.90 ₪</div></div>
+  </div>
+
+  <div class="tabs">
+    <span><span class="ico">🏠</span>תזרים</span>
+    <span><span class="ico">📊</span>קטגוריות</span>
+    <span class="on"><span class="ico">📥</span>תנועות</span>
+    <span><span class="ico">🏦</span>חשבונות</span>
+  </div>
+</div></div>
+<div class="label">3 · אינבוקס תנועות — כל תיקון הופך לחוק סיווג</div>
+</div>
+
+<!-- ============ 4. ACCOUNTS / SYNC ============ -->
+<div>
+<div class="phone"><div class="screen">
+  <div class="top"><div class="month">חשבונות</div><div class="gear">⚙️</div></div>
+
+  <div class="card">
+    <div class="acc"><div class="logo" style="background:#0a4da3">לא</div>
+      <div class="mid"><div class="n">לאומי · עו״ש</div><div class="muted">סונכרן הלילה 02:14</div></div>
+      <span class="badge ok">מעודכן</span></div>
+    <div class="acc"><div class="logo" style="background:#c8102e">פוע</div>
+      <div class="mid"><div class="n">הפועלים · עו״ש</div><div class="muted">סונכרן הלילה 02:16</div></div>
+      <span class="badge ok">מעודכן</span></div>
+    <div class="acc"><div class="logo" style="background:#00b0b9">מקס</div>
+      <div class="mid"><div class="n">מקס ····7719</div><div class="muted">סונכרן הלילה 02:18</div></div>
+      <span class="badge ok">מעודכן</span></div>
+    <div class="acc"><div class="logo" style="background:#5b2d8e">כאל</div>
+      <div class="mid"><div class="n">ויזה כאל ····4821</div><div class="muted">נכשל אתמול · שינוי באתר</div></div>
+      <span class="badge warn">שגיאה</span></div>
+  </div>
+
+  <div class="card">
+    <div class="kv"><span>סה״כ עו״ש</span><span class="v">18,430 ₪</span></div>
+    <div class="kv"><span>חיוב קרוב — מקס (10 לחודש)</span><span class="v neg">‎−3,240 ₪</span></div>
+    <div class="kv"><span>חיוב קרוב — כאל (2 לחודש)</span><span class="v neg">‎−2,890 ₪</span></div>
+  </div>
+
+  <div class="card alert">
+    <b>🔧 הסקרייפר של כאל נשבר</b>
+    <div class="muted" style="margin-top:4px">הודעה נשלחה בטלגרם. בינתיים אפשר לייבא XLSX ידנית מהאתר.</div>
+  </div>
+
+  <div class="muted" style="text-align:center;margin-top:6px">הסנכרון רץ על המחשב בבית — הסיסמאות לא עוזבות אותו</div>
+
+  <div class="tabs">
+    <span><span class="ico">🏠</span>תזרים</span>
+    <span><span class="ico">📊</span>קטגוריות</span>
+    <span><span class="ico">📥</span>תנועות</span>
+    <span class="on"><span class="ico">🏦</span>חשבונות</span>
+  </div>
+</div></div>
+<div class="label">4 · חשבונות — סטטוס סנכרון כן, הזזת כסף לא</div>
+</div>
+
+</div>
+</body>
+</html>

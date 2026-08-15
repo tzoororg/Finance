@@ -4,8 +4,9 @@
     {
       "name": "app",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["--yes", "http-server", "app", "-p", "8321", "-c-1"],
-      "port": 8321
+      "runtimeArgs": ["--yes", "http-server", "app", "-c-1"],
+      "port": 8321,
+      "autoPort": true
     }
   ]
 }

@@ -1,7 +1,7 @@
 // תזרים — vanilla JS PWA. No framework, no build step, no router lib (hash-based tabs).
 'use strict';
 
-const BUILD = 'build 2026-08-15.2';
+const BUILD = 'build 2026-08-15.3';
 
 // Categories fixed/variable split, used for the home screen breakdown.
 const FIXED_CATEGORIES = new Set(['דירה', 'מנויים ותקשורת']);
@@ -46,14 +46,38 @@ const store = {
 let DATA = null; // { accounts, transactions, generatedAt }
 let NOW = null;  // Date, taken from data.generatedAt so the app works on sample/offline data
 
+// data.enc = {iv, data} base64, AES-256-GCM, key = SHA-256 of the sync key shown on the PC
+// (data/sync-key.txt). Asked for once, kept in localStorage.
+async function decryptBlob(blob, passphrase) {
+  const b64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+  const keyBits = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(passphrase));
+  const key = await crypto.subtle.importKey('raw', keyBits, 'AES-GCM', false, ['decrypt']);
+  const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(blob.iv) }, key, b64(blob.data));
+  return JSON.parse(new TextDecoder().decode(plain));
+}
+
 async function loadData() {
   let raw;
   try {
-    const r = await fetch('data.json', { cache: 'no-store' });
-    if (!r.ok) throw new Error('no data.json');
-    raw = await r.json();
+    const r = await fetch('data.enc', { cache: 'no-store' });
+    if (!r.ok) throw new Error('no data.enc');
+    const blob = await r.json();
+    let pass = store.get('syncKey', null);
+    for (;;) {
+      if (!pass) pass = prompt('מפתח סנכרון (מהמחשב, data/sync-key.txt):');
+      if (!pass) throw new Error('no key'); // user cancelled -> sample data
+      try { raw = await decryptBlob(blob, pass.trim()); break; }
+      catch { pass = null; alert('מפתח שגוי, נסו שוב'); }
+    }
+    store.set('syncKey', pass.trim());
   } catch {
-    raw = await (await fetch('data.sample.json', { cache: 'no-store' })).json();
+    try {
+      const r = await fetch('data.json', { cache: 'no-store' });
+      if (!r.ok) throw new Error('no data.json');
+      raw = await r.json();
+    } catch {
+      raw = await (await fetch('data.sample.json', { cache: 'no-store' })).json();
+    }
   }
   const overrides = store.get('categoryOverrides', {});
   raw.transactions.forEach((t) => { if (overrides[t.id] != null) t.category = overrides[t.id]; });

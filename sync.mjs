@@ -2,7 +2,7 @@
 // Usage: node sync.mjs [--company leumi] [--months 12] [--show]
 import { createScraper } from 'israeli-bank-scrapers';
 import { execFileSync } from 'node:child_process';
-import { createHash } from 'node:crypto';
+import { createHash, createCipheriv, randomBytes } from 'node:crypto';
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 'node:fs';
 
 const ROOT = import.meta.dirname;
@@ -61,6 +61,31 @@ export function mergeTxns(store, company, account, txns, ruleList = rules) {
   return added;
 }
 
+// --- encryption (AES-256-GCM; key = sha256 of a random hex passphrase kept in data/) ---
+// ponytail: no PBKDF2 — the passphrase is 128-bit random hex, not a human password.
+export function encryptData(json, passphrase) {
+  const key = createHash('sha256').update(passphrase).digest();
+  const iv = randomBytes(12);
+  const cipher = createCipheriv('aes-256-gcm', key, iv);
+  const ct = Buffer.concat([cipher.update(json, 'utf8'), cipher.final(), cipher.getAuthTag()]);
+  return JSON.stringify({ iv: iv.toString('base64'), data: ct.toString('base64') });
+}
+function loadOrCreateKey() {
+  const p = `${ROOT}/data/sync-key.txt`;
+  if (!existsSync(p)) writeFileSync(p, randomBytes(16).toString('hex'));
+  return readFileSync(p, 'utf8').trim();
+}
+
+// Telegram alert via tg-bridge. data/tg-url.txt holds the keyed worker URL with a %s
+// placeholder for the message (e.g. https://tg-bridge.../send?key=X&msg=%s). Missing file = no alerts.
+async function notify(msg) {
+  const p = `${ROOT}/data/tg-url.txt`;
+  if (!existsSync(p)) return;
+  try {
+    await fetch(readFileSync(p, 'utf8').trim().replace('%s', encodeURIComponent(msg.slice(0, 140))));
+  } catch { /* alerting must never break the sync */ }
+}
+
 // --- main ---
 async function main() {
   const firstRun = Object.keys(store).length === 0;
@@ -107,13 +132,29 @@ async function main() {
 
   writeFileSync(`${ROOT}/data/transactions.json`, JSON.stringify(store, null, 1));
   writeFileSync(`${ROOT}/data/accounts.json`, JSON.stringify(accounts, null, 1));
-  writeFileSync(`${ROOT}/app/data.json`, JSON.stringify({
+  const exportJson = JSON.stringify({
     generatedAt: new Date().toISOString(),
     accounts: Object.values(accounts),
     transactions: Object.values(store).sort((a, b) => b.date.localeCompare(a.date)),
-  }));
+  });
+  writeFileSync(`${ROOT}/app/data.json`, exportJson);
+  writeFileSync(`${ROOT}/app/data.enc`, encryptData(exportJson, loadOrCreateKey()));
   const uncat = Object.values(store).filter(t => !t.category).length;
   console.log(`\n${Object.keys(store).length} transactions total, ${uncat} uncategorized, ${failed} scraper(s) failed`);
+
+  if (args.includes('--publish')) {
+    try {
+      execFileSync('git', ['add', 'app/data.enc'], { cwd: ROOT });
+      execFileSync('git', ['commit', '-m', 'data sync'], { cwd: ROOT });
+      execFileSync('git', ['push', 'origin', 'HEAD:master'], { cwd: ROOT });
+      console.log('published data.enc');
+    } catch (e) {
+      // nothing to commit is fine; a real push failure counts as a sync failure
+      if (!/nothing to commit/.test(String(e.stdout || e.message))) { failed++; console.log(`publish FAILED: ${e.message}`); }
+    }
+  }
+
+  if (failed) await notify(`תזרים: ${failed} scraper(s) failed tonight`);
   process.exit(failed ? 1 : 0);
 }
 

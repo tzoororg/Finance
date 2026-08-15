@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { categorize, txnId, mergeTxns } from '../sync.mjs';
+import { categorize, txnId, mergeTxns, encryptData } from '../sync.mjs';
+import { createHash, createDecipheriv } from 'node:crypto';
 
 const rules = [{ match: 'רמי לוי', category: 'סופר' }, { match: 'wolt', category: 'אוכל בחוץ' }];
 const txn = (over = {}) => ({
@@ -30,6 +31,16 @@ test('same-looking txns differ by identifier/account/company', () => {
   mergeTxns(store, 'max', '7719', [txn(), txn({ identifier: 556 })], rules);
   mergeTxns(store, 'visaCal', '4821', [txn()], rules);
   assert.equal(Object.keys(store).length, 3);
+});
+
+test('encryptData round-trips with AES-256-GCM (same layout the PWA decrypts)', () => {
+  const plain = JSON.stringify({ hello: 'שלום', n: 42 });
+  const { iv, data } = JSON.parse(encryptData(plain, 'testkey'));
+  const buf = Buffer.from(data, 'base64');
+  const ct = buf.subarray(0, buf.length - 16), tag = buf.subarray(buf.length - 16);
+  const d = createDecipheriv('aes-256-gcm', createHash('sha256').update('testkey').digest(), Buffer.from(iv, 'base64'));
+  d.setAuthTag(tag);
+  assert.equal(Buffer.concat([d.update(ct), d.final()]).toString('utf8'), plain);
 });
 
 test('pending txn updates status without duplicating', () => {

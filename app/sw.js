@@ -1,5 +1,5 @@
 // Cache-first for the app shell, network-first for data.json (bump CACHE on any file change).
-const CACHE = 'tzarim-2026-08-15.2';
+const CACHE = 'tzarim-2026-08-15.3';
 const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'manifest.webmanifest', 'icon.svg', 'data.sample.json'];
 
 self.addEventListener('install', (e) => {
@@ -14,7 +14,7 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
-  if (url.pathname.endsWith('data.json')) {
+  if (url.pathname.endsWith('data.json') || url.pathname.endsWith('data.enc')) {
     // network-first: always try fresh data, fall back to cache when offline
     e.respondWith(
       fetch(e.request).then((res) => {

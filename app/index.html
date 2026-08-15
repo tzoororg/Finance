@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f6f3ee">
+<title>תזרים</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <section id="screen-home" class="screen">
+    <div class="top"><div class="month" id="home-month"></div><button class="gear" title="הגדרות">⚙️</button></div>
+
+    <div class="card" style="text-align:center">
+      <div class="muted">צפי סוף חודש</div>
+      <div class="big" id="home-projection">—</div>
+      <div class="muted" id="home-updated"></div>
+    </div>
+
+    <div class="card">
+      <div class="kv"><span>נשאר להוציא החודש</span><span class="v" id="home-remaining">—</span></div>
+      <div class="bar"><i id="home-bar" style="width:0%;background:var(--green)"></i></div>
+      <div class="muted" id="home-pace" style="margin-top:6px"></div>
+    </div>
+
+    <div class="card">
+      <div class="kv"><span>הכנסות</span><span class="v" id="home-income">—</span></div>
+      <div class="kv"><span>הוצאות קבועות</span><span class="v" id="home-fixed">—</span></div>
+      <div class="kv"><span>הוצאות משתנות עד כה</span><span class="v" id="home-variable">—</span></div>
+    </div>
+
+    <div id="home-anomaly"></div>
+  </section>
+
+  <section id="screen-categories" class="screen">
+    <div class="top"><div class="month">קטגוריות · <span id="cat-month"></span></div><button class="gear">⚙️</button></div>
+    <div class="card" id="cat-list"></div>
+    <div class="card" style="text-align:center">
+      <div class="muted">תקציב לכל קטגוריה נקבע אוטומטית מממוצע 3 חודשים — אפשר לדרוס ידנית (הקש על קטגוריה)</div>
+    </div>
+  </section>
+
+  <section id="screen-transactions" class="screen">
+    <div class="top"><div class="month">תנועות</div><button class="gear">⚙️</button></div>
+
+    <div class="inboxhead">
+      <b style="font-size:15px">ממתינות לאישור</b>
+      <span class="count" id="tx-pending-count">0</span>
+    </div>
+    <div id="tx-pending"></div>
+    <div style="text-align:center;margin:8px 0 10px">
+      <button class="linkbtn" id="tx-export-rules">ייצוא חוקים</button>
+    </div>
+
+    <div id="tx-grouped"></div>
+  </section>
+
+  <section id="screen-accounts" class="screen">
+    <div class="top"><div class="month">חשבונות</div><button class="gear">⚙️</button></div>
+    <div class="card" id="acc-list"></div>
+    <div class="card" id="acc-totals"></div>
+    <div id="acc-errors"></div>
+    <div class="muted" style="text-align:center;margin-top:6px">הסנכרון רץ על המחשב בבית — הסיסמאות לא עוזבות אותו</div>
+    <div class="footer-build" id="build-string"></div>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab-btn" data-tab="home"><span class="ico">🏠</span>תזרים</button>
+    <button class="tab-btn" data-tab="categories"><span class="ico">📊</span>קטגוריות</button>
+    <button class="tab-btn" data-tab="transactions"><span class="ico">📥</span>תנועות</button>
+    <button class="tab-btn" data-tab="accounts"><span class="ico">🏦</span>חשבונות</button>
+  </nav>
+
+</div>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "תזרים",
+  "short_name": "תזרים",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#f6f3ee",
+  "theme_color": "#f6f3ee",
+  "dir": "rtl",
+  "lang": "he",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

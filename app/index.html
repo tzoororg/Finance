@@ -16,64 +16,83 @@
     <div class="top"><div class="month" id="home-month"></div><button class="gear" title="הגדרות">⚙️</button></div>
 
     <div class="card" style="text-align:center">
-      <div class="muted">צפי סוף חודש</div>
+      <div class="muted" data-i18n="projTitle"></div>
       <div class="big" id="home-projection">—</div>
       <div class="muted" id="home-updated"></div>
     </div>
 
     <div class="card">
-      <div class="kv"><span>נשאר להוציא החודש</span><span class="v" id="home-remaining">—</span></div>
+      <div class="kv"><span data-i18n="remainTitle"></span><span class="v" id="home-remaining">—</span></div>
       <div class="bar"><i id="home-bar" style="width:0%;background:var(--green)"></i></div>
       <div class="muted" id="home-pace" style="margin-top:6px"></div>
     </div>
 
     <div class="card">
-      <div class="kv"><span>הכנסות</span><span class="v" id="home-income">—</span></div>
-      <div class="kv"><span>הוצאות קבועות</span><span class="v" id="home-fixed">—</span></div>
-      <div class="kv"><span>הוצאות משתנות עד כה</span><span class="v" id="home-variable">—</span></div>
+      <div class="kv"><span data-i18n="income"></span><span class="v" id="home-income">—</span></div>
+      <div class="kv"><span data-i18n="fixed"></span><span class="v" id="home-fixed">—</span></div>
+      <div class="kv"><span data-i18n="variable"></span><span class="v" id="home-variable">—</span></div>
+    </div>
+
+    <div class="card">
+      <div class="kv"><span data-i18n="chartTitle"></span></div>
+      <div class="mchart" id="home-chart"></div>
+      <div class="muted" id="home-chart-legend" style="margin-top:6px;text-align:center"></div>
     </div>
 
     <div id="home-anomaly"></div>
   </section>
 
   <section id="screen-categories" class="screen">
-    <div class="top"><div class="month">קטגוריות · <span id="cat-month"></span></div><button class="gear">⚙️</button></div>
+    <div class="top"><div class="month"><span data-i18n="catTitle"></span> · <span id="cat-month"></span></div><button class="gear">⚙️</button></div>
     <div class="card" id="cat-list"></div>
     <div class="card" style="text-align:center">
-      <div class="muted">תקציב לכל קטגוריה נקבע אוטומטית מממוצע 3 חודשים — אפשר לדרוס ידנית (הקש על קטגוריה)</div>
+      <div class="muted" data-i18n="catHint"></div>
     </div>
   </section>
 
   <section id="screen-transactions" class="screen">
-    <div class="top"><div class="month">תנועות</div><button class="gear">⚙️</button></div>
+    <div class="top"><div class="month" data-i18n="txTitle"></div><button class="gear">⚙️</button></div>
 
     <div class="inboxhead">
-      <b style="font-size:15px">ממתינות לאישור</b>
+      <b style="font-size:15px" data-i18n="pendingHead"></b>
       <span class="count" id="tx-pending-count">0</span>
     </div>
     <div id="tx-pending"></div>
     <div style="text-align:center;margin:8px 0 10px">
-      <button class="linkbtn" id="tx-export-rules">ייצוא חוקים</button>
+      <button class="linkbtn" id="tx-export-rules" data-i18n="exportRules"></button>
     </div>
 
     <div id="tx-grouped"></div>
   </section>
 
   <section id="screen-accounts" class="screen">
-    <div class="top"><div class="month">חשבונות</div><button class="gear">⚙️</button></div>
+    <div class="top"><div class="month" data-i18n="accTitle"></div><button class="gear">⚙️</button></div>
     <div class="card" id="acc-list"></div>
     <div class="card" id="acc-totals"></div>
     <div id="acc-errors"></div>
-    <div class="muted" style="text-align:center;margin-top:6px">הסנכרון רץ על המחשב בבית — הסיסמאות לא עוזבות אותו</div>
+    <div class="muted" style="text-align:center;margin-top:6px" data-i18n="accNote"></div>
     <div class="footer-build" id="build-string"></div>
   </section>
 
   <nav class="tabs">
-    <button class="tab-btn" data-tab="home"><span class="ico">🏠</span>תזרים</button>
-    <button class="tab-btn" data-tab="categories"><span class="ico">📊</span>קטגוריות</button>
-    <button class="tab-btn" data-tab="transactions"><span class="ico">📥</span>תנועות</button>
-    <button class="tab-btn" data-tab="accounts"><span class="ico">🏦</span>חשבונות</button>
+    <button class="tab-btn" data-tab="home"><span class="ico">🏠</span><span data-i18n="tabHome"></span></button>
+    <button class="tab-btn" data-tab="categories"><span class="ico">📊</span><span data-i18n="tabCategories"></span></button>
+    <button class="tab-btn" data-tab="transactions"><span class="ico">📥</span><span data-i18n="tabTransactions"></span></button>
+    <button class="tab-btn" data-tab="accounts"><span class="ico">🏦</span><span data-i18n="tabAccounts"></span></button>
   </nav>
+
+  <dialog id="settings">
+    <div class="settings-head"><b data-i18n="settingsTitle"></b><button class="linkbtn" id="settings-close" data-i18n="close"></button></div>
+    <div class="kv"><span data-i18n="language"></span>
+      <span>
+        <button class="chip lang-btn" data-lang="he">עברית</button>
+        <button class="chip lang-btn" data-lang="en">English</button>
+      </span>
+    </div>
+    <div class="kv"><span data-i18n="syncKey"></span><button class="chip" id="settings-reset-key" data-i18n="resetKey"></button></div>
+    <div class="kv"><span data-i18n="pendingRulesLabel"></span><button class="chip" id="settings-export-rules" data-i18n="exportRules"></button></div>
+    <div class="muted" id="settings-build" style="text-align:center;margin-top:10px"></div>
+  </dialog>
 
 </div>
 <script src="app.js"></script>

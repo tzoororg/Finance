@@ -66,5 +66,21 @@ body{background:var(--bg);color:var(--ink)}
 .daylabel{font-size:14px;font-weight:700;margin:14px 0 4px}
 .daylabel:first-of-type{margin-top:0}
 
+.mchart{display:flex;gap:8px;align-items:flex-end;margin-top:10px}
+.mchart .mo{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.mchart .bars{display:flex;gap:3px;align-items:flex-end;height:96px;width:100%;justify-content:center}
+.mchart .b{width:12px;border-radius:3px 3px 0 0;display:block}
+.mchart .inc{background:var(--green)}
+.mchart .exp{background:var(--red)}
+.mchart .mlabel{font-size:11px;color:var(--muted)}
+
+.txcard{cursor:pointer}
+.txcard.open{border-color:var(--blue)}
+
+#settings{border:1px solid var(--line);border-radius:16px;padding:16px;width:min(90vw,340px);
+          background:var(--card);color:var(--ink);font-family:inherit}
+#settings::backdrop{background:rgba(0,0,0,.35)}
+.settings-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+
 .linkbtn{background:none;border:0;color:var(--blue);font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
 .footer-build{text-align:center;color:var(--muted);font-size:11px;margin:16px 0}

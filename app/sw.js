@@ -1,5 +1,5 @@
 // Cache-first for the app shell, network-first for data.json (bump CACHE on any file change).
-const CACHE = 'tzarim-2026-08-15.3';
+const CACHE = 'tzarim-2026-08-16.1';
 const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'manifest.webmanifest', 'icon.svg', 'data.sample.json'];
 
 self.addEventListener('install', (e) => {

@@ -47,6 +47,8 @@ credentials in chat; point them at the script.
   service worker serves the stale shell.
 - `data/`, `creds/`, and `app/data.json` hold real financial data and are gitignored — never
   commit, print, or paste their contents; use `data.sample.json` for anything user-visible.
-- Work on `dev`; `master` is for releases (house convention).
+- Work on `dev`. After committing a finished change, push and release it yourself without asking:
+  `git push origin dev && git push origin dev:master`, then verify the Pages deploy succeeded
+  (user standing instruction, 2026-08-16).
 - Scrapers break when banks change their sites — before debugging sync.mjs logic, check
   israeli-bank-scrapers issues and try `npm update israeli-bank-scrapers`.
